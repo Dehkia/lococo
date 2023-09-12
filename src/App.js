@@ -1,23 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Footer from "./common/Footer";
+import Header from "./common/Header";
+import Input from "./common/Input";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
+      <main id="container">
+        <div className="spacer"></div>
+        <div id="searchMain">
+          <Input />
+          <button>검색</button>
+        </div>
+        <section id="noticeMain">
+          <div className="notice loaNotice">로스트아크 공지사항</div>
+          <div className="notice newPost">최신 공략글</div>
+        </section>
+      </main>
+      <Footer />
     </div>
   );
 }
