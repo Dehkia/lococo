@@ -11,7 +11,6 @@ function App() {
         <div className="spacer"></div>
         <div id="searchMain">
           <Input />
-          <button>검색</button>
         </div>
         <section id="noticeMain">
           <div className="notice loaNotice">로스트아크 공지사항</div>
