@@ -23,7 +23,7 @@ const Input = () => {
     try {
       // api 서버에 요청 보내기
       const response = await axios.get(
-        `https://developer-lostark.game.onstove.com/characters/${encoded}/siblings`,
+        `https://developer-lostark.game.onstove.com/armories/characters/${encoded}/equipment`,
         {
           headers: {
             accept: "application/json",
@@ -34,7 +34,7 @@ const Input = () => {
       );
 
       // 응답 데이터를 상태에 저장
-      setLoaResponse(response.data);
+      setLoaResponse(response.data[0]);
     } catch (error) {
       console.error("API 요청 중 오류 발생:", error);
     }
@@ -46,7 +46,7 @@ const Input = () => {
       <button onClick={getCharacter}>검색</button>
       <div>
         {/* 상태에 저장된 응답 데이터를 출력 */}
-        <b>값: {loaApiResponse ? JSON.stringify(loaApiResponse) : ""}</b>
+        <b>{loaApiResponse ? JSON.stringify(loaApiResponse) : ""}</b>
       </div>
     </div>
   );

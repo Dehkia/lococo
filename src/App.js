@@ -17,6 +17,7 @@ function App() {
           <div className="notice newPost">최신 공략글</div>
         </section>
       </main>
+
       <Footer />
     </div>
   );
