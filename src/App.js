@@ -1,24 +1,53 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useRef, useState } from "react";
 import "./App.css";
-import Footer from "./common/Footer";
-import Header from "./common/Header";
-import Input from "./common/Input";
+import Edit from "./pages/Edit";
+import Home from "./pages/Home";
+import Tip from "./pages/Tip";
 
 function App() {
+  const [data, setData] = useState([]);
+
+  // id 의 기본값은 0으로
+  const dataId = useRef(1);
+
+  // 새로운 글을 추가하는 함수
+  const onCreate = (author, content) => {
+    const create_date = new Date().getTime();
+    const newItem = {
+      author,
+      content,
+      create_date,
+      id: dataId.current,
+    };
+    dataId.current += 1;
+
+    // 새로운 게시글을 위에 추가하려면 첫인덱스로
+    setData([newItem, ...data]);
+  };
+
+  const onDelete = (targetId) => {
+    console.log(`${targetId}가 삭제되었습니다`);
+
+    // 삭제할 id 가 아닌 것들만 새로운 리스트에 저장하기
+    const newEditList = data.filter((it) => it.id !== targetId);
+    setData(newEditList);
+  };
+
   return (
     <div className="App">
-      <Header />
-      <main id="container">
-        <div className="spacer"></div>
-        <div id="searchMain">
-          <Input />
-        </div>
-        <section id="noticeMain">
-          <div className="notice loaNotice">로스트아크 공지사항</div>
-          <div className="notice newPost">최신 공략글</div>
-        </section>
-      </main>
-
-      <Footer />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/tip" element={<Tip />} />
+          <Route
+            path="/edit"
+            element={
+              <Edit onCreate={onCreate} onDelete={onDelete} editList={data} />
+            }
+          />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }

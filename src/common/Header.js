@@ -1,19 +1,13 @@
 import "./Header.css";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
-    <header className="header">
+    <header className="Header">
       <nav id="navContainer">
         <div className="navMain">
-          <a id="community" href="#">
-            커뮤니티
-          </a>
-          <a id="skillInformation" href="#">
-            스킬정보
-          </a>
-        </div>
-        <div className="navSub">
-          <a>로그인</a>
+          <Link to={"/tip"}>운영 팁</Link>
+          <Link to={"/skill"}>스킬정보</Link>
         </div>
       </nav>
     </header>
