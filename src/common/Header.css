@@ -1,9 +1,16 @@
 .Header {
-  border: 1px solid gray;
-  text-align: center;
   padding: 20px;
 }
 
 .Header a {
   padding-left: 30px;
+}
+
+.navMain {
+  display: flex;
+  justify-content: space-between;
+}
+
+#navContainer {
+  margin: 0 300px;
 }

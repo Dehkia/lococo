@@ -1,4 +1,5 @@
 import axios from "axios";
+import "./Input.css";
 import React, { useState } from "react";
 
 const API_KEY =
@@ -53,13 +54,19 @@ const Input = () => {
     } catch (error) {
       console.error("API 요청 중 오류 발생:", error);
     }
+
+    window.location.href = `/character/${characterName}`;
   };
 
   // <div dangerouslySetInnerHTML={{ __html: htmlMessage }}>       <<== HTML코드 문자열을 __HTML 속성에 넣어서 객체에 전달
   return (
-    <div>
-      <input onChange={onChange} value={characterName} />
-      <button onClick={getCharacter}>검색</button>
+    <div className="Input">
+      <div className="InputContainer">
+        <h2>아이템 및 전적 검색란입니다.</h2>
+        <p>검색시 캐릭터명을 가진 URL로 이동합니다.</p>
+        <input onChange={onChange} value={characterName} />
+        <button onClick={getCharacter}>검색</button>
+      </div>
       <div>
         {loaApiResponse && (
           <div>

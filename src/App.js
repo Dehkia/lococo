@@ -4,6 +4,7 @@ import "./App.css";
 import Edit from "./pages/Edit";
 import Home from "./pages/Home";
 import Tip from "./pages/Tip";
+import CharacterPage from "./pages/CharacterPage";
 
 function App() {
   const [data, setData] = useState([]);
@@ -46,6 +47,7 @@ function App() {
               <Edit onCreate={onCreate} onDelete={onDelete} editList={data} />
             }
           />
+          <Route path="/character/:name" element={<CharacterPage />} />
         </Routes>
       </BrowserRouter>
     </div>
