@@ -9,13 +9,13 @@ const Header = () => {
           로코코
         </Link>
         <Link to={"/tip"} style={{ textDecoration: "none", color: "inherit" }}>
-          운영 팁
+          커뮤니티
         </Link>
         <Link
           to={"/skill"}
           style={{ textDecoration: "none", color: "inherit" }}
         >
-          스킬정보
+          스킬
         </Link>
       </div>
 
