@@ -5,6 +5,7 @@ import Edit from "./pages/Edit";
 import Home from "./pages/Home";
 import Tip from "./pages/Tip";
 import CharacterPage from "./pages/CharacterPage";
+import EventComponent from "./component/EventComponent";
 
 function App() {
   const [data, setData] = useState([]);
@@ -48,6 +49,7 @@ function App() {
             }
           />
           <Route path="/character/:name" element={<CharacterPage />} />
+          <Route path="/component/event" element={<EventComponent />} />
         </Routes>
       </BrowserRouter>
     </div>
