@@ -1,6 +1,5 @@
 import { useRef, useState } from "react";
 import EditList from "./EditList";
-import Header from "../common/Header";
 
 const Edit = ({ onCreate, onDelete, editList }) => {
   // 작성자, 본문 -> 서로 완전히 동일한 형태의 상태를 가짐
@@ -50,7 +49,6 @@ const Edit = ({ onCreate, onDelete, editList }) => {
 
   return (
     <div className="Edit">
-      <Header />
       <h2>운영 팁</h2>
       {/* author form */}
       <div>

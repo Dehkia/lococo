@@ -1,18 +1,24 @@
 import Input from "../common/Input";
-import Header from "../common/Header";
-import Notice from "../common/Notice";
+import NoticeComponent from "../component/NoticeComponent";
 import EventComponent from "../component/EventComponent";
+import HeaderComponent from "../component/HeaderComponent";
+import FooterComponent from "../component/FooterComponent";
 import "../style/Home.css";
+import IslandComponent from "../component/IslandComponent";
 
 const Home = () => {
   return (
     <div className="Home">
-      <Header />
+      <HeaderComponent />
       <div className="Home_Content">
+        <div className="Home_Sayhi">
+          <h2>안녕하세요, 반갑소이원재요 님!</h2>
+        </div>
         <EventComponent />
-        <Notice />
-        <Input />
+        <NoticeComponent />
+        <IslandComponent />
       </div>
+      <FooterComponent />
     </div>
   );
 };
