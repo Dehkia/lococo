@@ -36,24 +36,6 @@ textarea {
   cursor: pointer;
 }
 
-/* Notice */
-
-.Notice {
-  border: 1px solid gray;
-  margin: 50px 100px;
-  padding: 20px;
-}
-
-.Notice li {
-  list-style: none;
-  padding: 3px;
-}
-
-.Notice a {
-  text-decoration: none;
-  color: inherit;
-}
-
 /* Input */
 
 .Input {

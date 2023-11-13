@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import API_KEY from "../NeedIgnore";
+import "../style/Notice.css";
 
 const Notice = () => {
   const [notices, setNotices] = useState([]);

@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import API_KEY from "../NeedIgnore";
+import "../style/EventComponent.css";
 
 const EventComponent = () => {
   useEffect(() => {
@@ -32,10 +33,9 @@ const EventComponent = () => {
   };
 
   return (
-    <div>
-      <h1>이벤트 컴포넌트</h1>
+    <div className="EventComponent">
       {events.map((e, index) => (
-        <li key={index}>
+        <li key={index} style={{ listStyle: "none" }} className="event">
           <a href={e.Link}>
             <img src={e.Thumbnail} alt="썸네일" />
           </a>

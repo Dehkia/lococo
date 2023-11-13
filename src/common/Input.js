@@ -18,12 +18,12 @@ const Input = () => {
   return (
     <div className="Input">
       <div className="InputContainer">
-        <img
+        {/* <img
           src="https://github.com/moonnu/react-exam/assets/86511086/451101aa-ac8b-4ba2-92f6-b42457d1df68"
           width="350"
           height="350"
           alt="lococo"
-        ></img>
+        ></img> */}
         <form onSubmit={handleSubmit}>
           <div className="InputLabel">
             <label>Search</label>
