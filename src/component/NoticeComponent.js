@@ -26,8 +26,6 @@ const NoticeComponent = () => {
       // 응답 데이터를 상태에 저장
       const noticeList = response.data.slice(0, 5);
       setNotices(noticeList);
-
-      console.log(noticeList);
     } catch (error) {
       console.error("API 요청 중 오류 발생:", error);
     }

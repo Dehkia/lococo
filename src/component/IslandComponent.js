@@ -47,7 +47,6 @@ const IslandComponent = () => {
       });
 
       setIsland(filteredArray);
-      console.log(filteredArray);
     } catch (error) {
       console.error("API 요청 중 오류 발생:", error);
     }
@@ -62,7 +61,6 @@ const IslandComponent = () => {
             <img src={i.ContentsIcon} alt="#"></img>
             <div className="island_column">
               <h4>{i.ContentsName}</h4>
-
               <div className="island_raw">
                 {i.RewardItems.map((reward, rewardIndex) => (
                   <RewardItem key={rewardIndex} icon={reward.Icon} />

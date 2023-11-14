@@ -1,9 +1,10 @@
 import "../style/HeaderComponent.css";
+import Header from "../common/Input";
 
 const HeaderComponent = () => {
   return (
     <header className="HeaderComponent">
-      <h1>header 입니다.</h1>
+      <Header />
     </header>
   );
 };

@@ -25,7 +25,6 @@ const EventComponent = () => {
 
       const eventList = response.data.slice(0, 3);
       setEvents(eventList);
-      console.log(eventList);
     } catch (error) {
       console.error("API 요청 중 오류 발생:", error);
     }
