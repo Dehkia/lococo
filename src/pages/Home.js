@@ -1,4 +1,3 @@
-import Input from "../common/Input";
 import NoticeComponent from "../component/NoticeComponent";
 import EventComponent from "../component/EventComponent";
 import HeaderComponent from "../component/HeaderComponent";
