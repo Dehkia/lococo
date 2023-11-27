@@ -90,14 +90,14 @@ app.post('/inputpost',function(req,res){
         result.push(ex[1]);
     }
     
-    let sql = 'insert into post (Contents,Me,You,SkillName1,SkillName2,SkillName3,SkillName4,SkillName5) values (?,?,?,?,?,?,?,?)';
-    let param = [req.body.contents,req.body.me,req.body.you,result[0],result[1],result[2],result[3],result[4]];
+    let sql = 'insert into post (Contents,Me,You,SkillName1,SkillName2,SkillName3) values (?,?,?,?,?,?)';
+    let param = [req.body.contents,req.body.me,req.body.you,result[0],result[1],result[2]];
     connection.query(sql,param,function(err){
         if(err){
             console.log(err);
         }
     })
-
+    result = [];
     res.redirect("/post");
     
 })
@@ -109,14 +109,14 @@ app.post('/inputpost1',function(req,res){
         result.push(ex[1]);
     }
     
-    let sql = 'insert into post (Contents,Me,You,SkillName1,SkillName2,SkillName3,SkillName4,SkillName5) values (?,?,?,?,?,?,?,?)';
-    let param = [req.body.contents,postme,postyou,result[0],result[1],result[2],result[3],result[4]];
+    let sql = 'insert into post (Contents,Me,You,SkillName1,SkillName2,SkillName3) values (?,?,?,?,?,?)';
+    let param = [req.body.contents,postme,postyou,result[0],result[1],result[2]];
     connection.query(sql,param,function(err){
         if(err){
             console.log(err);
         }
     })
-
+ result = [];
     res.redirect("/post");
     
 })
@@ -137,7 +137,13 @@ app.post('/inputpost1',function(req,res){
          
 // })
 app.get('/write',function(req,res,next){
-   res.render('write');
+    const sql = "select SkillName,SkillImg from skill where JobName = ? "  ;
+    var param = jobname1;
+    connection.query(sql,[param],function(err,rows){
+            if(err) console.error;
+            res.render("write",{rows:rows});
+         })
+ 
 
 })
 // app.get('/post1',function(req,res,next){
@@ -179,12 +185,19 @@ app.get('/post',function(req,res){
 })
 
   let jobname ="";
+  let jobname1 = "";
   app.post('/search',function(req,res){
     jobname = req.body.job;
     
     var string = encodeURIComponent(jobname);
     res.redirect('/skilldb/' );
   })
+  app.post('/search1',function(req,res){
+    jobname1 = req.body.job;
+    
+    res.redirect('/write/' );
+  })
+
 
 //   app.get('/skilldb/:job', function(req,res,next){
 //     const sql = "select SkillName,SkillEx,SkillImg,TripodName1,TripodEx1,TripodName2,TripodEx2,TripodName3,TripodEx3,TripodName4,TripodEx4,TripodName5,TripodEx5,TripodName6,TripodEx6,TripodName7,TripodEx7,TripodName8,TripodEx8 from skill where JobName = ? "  ;

@@ -6,13 +6,38 @@
     <title>Document</title>
 </head>
 <body>
+    <script>
+        function displayAlt(imageId){
+        console.log(imageId);
+        let contentsInput = document.getElementById("contents");
+        document.getElementById("contents").value += "["+imageId+"]";
+       
+         }
+     </script>
     <form name="input" method="post">
-        내용<input type="text" name="contents" maxlength="100">
+        내용<input type="text" id="contents" name="contents" maxlength="100">
         본인 직업<input type="text" name="me" maxlength="100">
         상대 직업<input type="text" name="you" maxlength="100">
         <input type="submit" value="글쓰기" formaction="/inputpost">  
     </form>
 
+    <form name="input" method="post">
+        <button type="submit" name="job" value="도화가" formaction="/search1">도화가</button>
+        <button type="submit" name="job" value="디스트로이어" formaction="/search1">디스트로이어</button>
+        <button type="submit" name="job" value="워로드" formaction="/search1">워로드</button>
+        <button type="submit" name="job" value="인파이터" formaction="/search1">인파이터</button>
+    </form>
+
+    <%
+    for(var i=0; i<rows.length; i++)
+    {
+        var data = rows[i];
+    %>
+        <%=data.SkillName%>
+        <img  src= "<%=data.SkillImg%>" alt="<%=data.SkillName%>" width="250" onclick="displayAlt('<%=data.SkillName%>')"/>
+        <br>
+    <%}
+    %>
 
 
 </body>

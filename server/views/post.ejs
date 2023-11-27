@@ -26,7 +26,7 @@
     <div id = "tagArea"></div>
     <script>
         let b="";
-        let c=""
+        let c="";
         let tagArea = document.getElementById('tagArea');
     </script>
     <table border="1">
@@ -48,10 +48,17 @@
             <td><img src= "<%=data.SkillImg3%>" alt="이미지" width="100"/></td>
            
             <script>
+                
                 var a = "<%=data.Contents%>";
-                a = a.replace("<%=data.SkillName1%>","<span class='test1'>"+"<%=data.SkillName1%>"+"</span>");
-                a = a.replace("<%=data.SkillName2%>","<span class='test2'>"+"<%=data.SkillName2%>"+"</span>");
-                a = a.replace("<%=data.SkillName3%>","<span class='test3'>"+"<%=data.SkillName3%>"+"</span>");
+                if("<%=data.SkillName1%>"){
+                    a = a.replace(new RegExp("<%=data.SkillName1%>", "g"), "<span class='test1'>" + "<%=data.SkillName1%>" + "</span>");
+                    if("<%=data.SkillName2%>"){
+                        a = a.replace(new RegExp("<%=data.SkillName2%>", "g"), "<span class='test2'>" + "<%=data.SkillName2%>" + "</span>");
+                        if("<%=data.SkillName3%>"){
+                            a = a.replace(new RegExp("<%=data.SkillName3%>", "g"), "<span class='test3'>" + "<%=data.SkillName3%>" + "</span>");
+                        }
+                    }
+                }
                 console.log(a);
                 b = document.createElement('div');
                 b.id = "postnum";
@@ -87,7 +94,7 @@
         <input type="submit" value="글쓰기" formaction="/inputpost1">  
     </form>
 
-    <button type="button" onclick="location.href='/write' ">글쓰기</button>
+    <button type="button" onclick="location.href='/write' ">상세 글쓰기</button>
 
     
 </body>
