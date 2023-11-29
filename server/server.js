@@ -73,13 +73,49 @@ app.post('/inputdb', upload.single('SkillImage'),function(req,res){
                 }
                 
             })
-            res.redirect("/admin");
+            res.send("<script>alert('입력 완료!');location.href='/admin';</script>");
         }
         
     })
 
 
   });
+  app.post('/updatedb', upload.single('SkillImage'),function(req,res){
+
+    var sql = 'Update skill set SkillEx=?,AttHit=?,DefHit=?,SkillImg=? where SkillName = ?';
+    const SkillName = req.body.SkillName;
+    const SkillEx = req.body.SkillEx;
+    const AttHit = req.body.AttHit;
+    const DefHit = req.body.DefHit;
+    let filename = "";
+    if(req.file !== undefined){
+        filename = req.file.filename;
+        }
+    const SkillImage = `/images/${filename}`;
+    var param = [SkillEx,AttHit,DefHit,SkillImage,SkillName];
+            connection.query(sql,param,function(err){
+                if(err){
+                    console.log(err);
+                }
+                
+            })
+            res.send("<script>alert('수정 완료!');location.href='/admin';</script>");    
+  });
+  app.post('/deletedb', upload.single('SkillImage'),function(req,res){
+
+    var sql = 'Delete from skill where SkillName = ?';
+    const SkillName = req.body.SkillName;
+ 
+    var param = [SkillName];
+            connection.query(sql,param,function(err){
+                if(err){
+                    console.log(err);
+                }
+                
+            })
+            res.send("<script>alert('삭제 완료!');location.href='/admin';</script>");
+  });
+
 
   let result = [];
 app.post('/inputpost',function(req,res){
