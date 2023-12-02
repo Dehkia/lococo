@@ -15,6 +15,7 @@
         <button type="submit" name="me" value="인파이터" formaction="/postsearch">인파이터</button>
         <button type="submit" name="me" value="워로드" formaction="/postsearch">워로드</button>
         <button type="submit" name="me" value="디스트로이어" formaction="/postsearch">디스트로이어</button>
+        <button type="submit" name="me" value="버서커" formaction="/postsearch">버서커</button>
     </form>
     <form name="input" method="post">
         상대 직업:
@@ -22,34 +23,29 @@
         <button type="submit" name="you" value="인파이터" formaction="/postsearch1">인파이터</button>
         <button type="submit" name="you" value="워로드" formaction="/postsearch1">워로드</button>
         <button type="submit" name="you" value="디스트로이어" formaction="/postsearch1">디스트로이어</button>
+        <button type="submit" name="you" value="버서커" formaction="/postsearch1">버서커</button>
     </form>
-    <div id = "tagArea"></div>
+    <form name="input1"  method="post" >
+        <div id = "tagArea">
+    </form>
+    
     <script>
         let b="";
         let c="";
+
         let tagArea = document.getElementById('tagArea');
+        
+        
     </script>
-    <table border="1">
+    
         <%
         for(var i=0; i<rows.length; i++)
         {
             var data = rows[i];
         %>
-        <tr>
-            <td><%=data.Contents%></td>
-            <td><%=data.SkillName1%></td>
-            <td><%=data.SkillEx1%></td>
-            <td><img src= "<%=data.SkillImg1%>" alt="이미지" width="100"/></td>
-            <td><%=data.SkillName2%></td>
-            <td><%=data.SkillEx2%></td>
-            <td><img src= "<%=data.SkillImg2%>" alt="이미지" width="100"/></td>
-            <td><%=data.SkillName3%></td>
-            <td><%=data.SkillEx3%></td>
-            <td><img src= "<%=data.SkillImg3%>" alt="이미지" width="100"/></td>
-           
+        
             <script>
-                
-                var a = "<%=data.Contents%>";
+                var a = "작성자:  "+"<%=data.id%>"+"<br>    "+"<%=data.Contents%>";
                 if("<%=data.SkillName1%>"){
                     a = a.replace(new RegExp("<%=data.SkillName1%>", "g"), "<span class='test1'>" + "<%=data.SkillName1%>" + "</span>");
                     if("<%=data.SkillName2%>"){
@@ -61,7 +57,9 @@
                 }
                 console.log(a);
                 b = document.createElement('div');
-                b.id = "postnum";
+                c = document.createElement("button");
+                
+                b.id = "<%=data.Num%>";
                 b.innerHTML = a;
                 var a1 = "<%=data.SkillName1%>" +'</br>' +"<%=data.SkillEx1%>" +'</br>'+'<img src= "<%=data.SkillImg1%>" alt="이미지" width="200"/>'+'</br>';
                 tip1 =  document.createElement('span');
@@ -82,14 +80,30 @@
                 b.appendChild(tip2);
                 b.appendChild(tip3);
 
+                c.setAttribute("value","<%=data.Num%>");
+                c.setAttribute("name", "aa")
+                c.innerHTML ="X";
+                c.addEventListener('click', function() {
+                    var result = prompt('확인하시겠습니까?',"");
+                    if (result=="<%=data.password%>") {
+                      alert('확인되었습니다');
+                      c.setAttribute("formaction","/tt");
+                    } else {
+                      alert('틀렸습니다');
+                      c.setAttribute("formaction","/tt1");
+                    }
+                  });
+                  b.appendChild(c);
 
             </script>
             
-        </tr>
+        
         <%}
         %>
-    </table>
+   
     <form name="input" method="post">
+        닉네임<input type="text" name="id" maxlength="100">
+        비밀번호<input type="text" name="password" maxlength="100">
         내용<input type="text" name="contents" maxlength="100">
         <input type="submit" value="글쓰기" formaction="/inputpost1">  
     </form>

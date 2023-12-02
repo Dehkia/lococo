@@ -35,11 +35,45 @@ var upload = multer({storage: storage});
 
 var connection = mysql.createConnection(conn); // DB 커넥션 생성
 connection.connect();
-
-app.get('/admin', (req, res) => {
-    res.sendFile(path.join(__dirname,'app.html'));
+let dbsearch = ""
+app.post('/searchdb',function(req,res){
+    
+    dbsearch = req.body.searchSkill;
+    
+    res.redirect("/admin");
   });
-app.post('/inputdb', upload.single('SkillImage'),function(req,res){
+  
+
+  let JobName11,SkillName11,SkillEx11,AttHit11,DefHit11;
+app.get('/admin', (req, res) => {
+    var sql = 'select JobName,SkillName,SkillEx,AttHit,DefHit from skill where SkillName =?'
+    var param = dbsearch;
+    if(dbsearch !==""){
+    connection.query(sql,param,function(err,rows){
+        console.log(rows);
+        if(rows[0]!==undefined){
+            JobName11 = rows[0].JobName;
+            SkillName11 = rows[0].SkillName;
+            SkillEx11 = rows[0].SkillEx;
+            AttHit11 = rows[0].AttHit;
+            DefHit11 = rows[0].DefHit;
+           
+        }
+        res.render("admin",{JobName11:JobName11,SkillName11:SkillName11,SkillEx11:SkillEx11,AttHit11:AttHit11,DefHit11:DefHit11});
+         })
+         
+    }
+    else{
+        JobName11 ="";
+        SkillName11 = "";
+        SkillEx11 = "";
+        AttHit11 = "";
+        DefHit11 ="";
+        res.render("admin",{JobName11:JobName11,SkillName11:SkillName11,SkillEx11:SkillEx11,AttHit11:AttHit11,DefHit11:DefHit11});
+    }
+  });
+
+app.post('/inputdb', upload.array('SkillImage'),function(req,res){
     var sql1 = 'Select SkillName from skill where SkillName = ?';
     var param1 = req.body.SkillName;
     connection.query(sql1,param1,function(err,rows){
@@ -49,24 +83,22 @@ app.post('/inputdb', upload.single('SkillImage'),function(req,res){
             res.send("<script>alert('스킬명 중복됨');window.location.replace('/admin');</script>;");
         }
         else{
-            var sql = 'Insert INTO skill (JobName,SkillName,SkillEx,AttHit,DefHit,SkillImg,TripodName1,TripodEx1,TripodName2,TripodEx2,TripodName3,TripodEx3,TripodName4,TripodEx4,TripodName5,TripodEx5,TripodName6,TripodEx6,TripodName7,TripodEx7,TripodName8,TripodEx8) VALUES(?,?,?,?,?,?,?) ';
+            var sql = 'Insert INTO skill (JobName,SkillName,SkillEx,AttHit,DefHit,SkillImg,SkillThumb) VALUES(?,?,?,?,?,?,?) ';
             const JobName = req.body.JobName;
             const SkillName = req.body.SkillName;
             const SkillEx = req.body.SkillEx;
             const AttHit = req.body.AttHit;
             const DefHit = req.body.DefHit;
-            let filename = "";
-            if(req.file !== undefined){
-                filename = req.file.filename;
-                
+            console.log(req.files);
+            let filename1 = "";
+            let filename2 = "";
+            if(req.files[0]&&req.files[1] !== undefined){
+                filename1 = req.files[0].filename;
+                filename2 = req.files[1].filename;
             }
-            const SkillImage = `/images/${filename}`;
-            const Tripod = [req.body.TripodName1,req.body.TripodEx1,req.body.TripodName2,req.body.TripodEx2,
-            req.body.TripodName3,req.body.TripodEx3,req.body.TripodName4,req.body.TripodEx4,
-            req.body.TripodName5,req.body.TripodEx5,req.body.TripodName6,req.body.TripodEx6,
-            req.body.TripodName7,req.body.TripodEx7,req.body.TripodName8,req.body.TripodEx8] 
-            
-            var param = [JobName,SkillName,SkillEx,AttHit,DefHit,SkillImage,Tripod];
+            const SkillImage = `/images/${filename1}`;  
+            const SkillThumb = `/images/${filename2}`;            
+            var param = [JobName,SkillName,SkillEx,AttHit,DefHit,SkillImage,SkillThumb];
             connection.query(sql,param,function(err){
                 if(err){
                     console.log(err);
@@ -80,24 +112,26 @@ app.post('/inputdb', upload.single('SkillImage'),function(req,res){
 
 
   });
-  app.post('/updatedb', upload.single('SkillImage'),function(req,res){
+  app.post('/updatedb', upload.array('SkillImage'),function(req,res){
 
-    var sql = 'Update skill set SkillEx=?,AttHit=?,DefHit=?,SkillImg=? where SkillName = ?';
+    var sql = 'Update skill set SkillEx=?,AttHit=?,DefHit=?,SkillImg=?,SkillThumb=? where SkillName = ?';
     const SkillName = req.body.SkillName;
     const SkillEx = req.body.SkillEx;
     const AttHit = req.body.AttHit;
     const DefHit = req.body.DefHit;
-    let filename = "";
-    if(req.file !== undefined){
-        filename = req.file.filename;
-        }
-    const SkillImage = `/images/${filename}`;
-    var param = [SkillEx,AttHit,DefHit,SkillImage,SkillName];
+    let filename1 = "";
+    let filename2 = "";
+    if(req.files !== undefined){
+        filename1 = req.files[0].filename;
+        filename2 = req.files[1].filename;
+    }
+    const SkillImage = `/images/${filename1}`;  
+    const SkillThumb = `/images/${filename2}`;  
+    var param = [SkillEx,AttHit,DefHit,SkillImage,SkillThumb,SkillName];
             connection.query(sql,param,function(err){
                 if(err){
                     console.log(err);
                 }
-                
             })
             res.send("<script>alert('수정 완료!');location.href='/admin';</script>");    
   });
@@ -115,6 +149,8 @@ app.post('/inputdb', upload.single('SkillImage'),function(req,res){
             })
             res.send("<script>alert('삭제 완료!');location.href='/admin';</script>");
   });
+  
+
 
 
   let result = [];
@@ -126,8 +162,8 @@ app.post('/inputpost',function(req,res){
         result.push(ex[1]);
     }
     
-    let sql = 'insert into post (Contents,Me,You,SkillName1,SkillName2,SkillName3) values (?,?,?,?,?,?)';
-    let param = [req.body.contents,req.body.me,req.body.you,result[0],result[1],result[2]];
+    let sql = 'insert into post (id,password,Contents,Me,You,SkillName1,SkillName2,SkillName3) values (?,?,?,?,?,?,?,?)';
+    let param = [req.body.id,req.body.password,req.body.contents,req.body.me,req.body.you,result[0],result[1],result[2]];
     connection.query(sql,param,function(err){
         if(err){
             console.log(err);
@@ -145,8 +181,8 @@ app.post('/inputpost1',function(req,res){
         result.push(ex[1]);
     }
     
-    let sql = 'insert into post (Contents,Me,You,SkillName1,SkillName2,SkillName3) values (?,?,?,?,?,?)';
-    let param = [req.body.contents,postme,postyou,result[0],result[1],result[2]];
+    let sql = 'insert into post (id,password,Contents,Me,You,SkillName1,SkillName2,SkillName3) values (?,?,?,?,?,?,?,?)';
+    let param = [req.body.id,req.body.password,req.body.contents,postme,postyou,result[0],result[1],result[2]];
     connection.query(sql,param,function(err){
         if(err){
             console.log(err);
@@ -158,42 +194,18 @@ app.post('/inputpost1',function(req,res){
 })
 
 
-// app.post('/write1',function(req,res){
-//     let sent = req.body.contents;
-//     let regex = /\[(.*?)\]/g;
-//     let ex;
-//     while((ex=regex.exec(sent))!==null){
-//         result.push(ex[1]);
-//     }
-//     for (var i in result){
-//         result[i] = JSON.stringify(result[i]);
-//     }
-//     console.log(result);
-//     res.redirect("/post1");
-         
-// })
+let savecontents, id , password, me, you = ""
 app.get('/write',function(req,res,next){
-    const sql = "select SkillName,SkillImg from skill where JobName = ? "  ;
+    const sql = "select SkillName,SkillThumb from skill where JobName = ? "  ;
     var param = jobname1;
     connection.query(sql,[param],function(err,rows){
             if(err) console.error;
-            res.render("write",{rows:rows});
+            res.render("write",{rows:rows,savecontents:savecontents,id:id,password:password,me:me,you:you});
          })
  
 
 })
-// app.get('/post1',function(req,res,next){
-//     let sql = "select SkillName,SkillEx from skill where SkillName in "
-//     console.log("여기"+result.join());
-//     sql += "("+result.join()+")";
-//     connection.query(sql,function(err,rows){
-//             if(err) console.error;
-//             console.log(rows);
-//             res.render("post",{rows:rows});
-//          })
-//     result = [];
 
-// })
 let postme = "";
 let postyou = "";
 app.post('/postsearch',function(req,res){
@@ -208,46 +220,59 @@ app.post('/postsearch',function(req,res){
 
 app.get('/post',function(req,res){
 
-    let sql = "SELECT P.Contents,P.SkillName1, S1.SkillEx AS SkillEx1, S1.SkillImg AS SkillImg1, P.SkillName2, S2.SkillEx AS SkillEx2, S2.SkillImg AS SkillImg2, P.SkillName3, S3.SkillEx AS SkillEx3, S3.SkillImg AS SkillImg3 FROM Post AS P LEFT JOIN Skill AS S1 ON P.SkillName1 = S1.SkillName LEFT JOIN Skill AS S2 ON P.SkillName2 = S2.SkillName LEFT JOIN Skill AS S3 ON P.SkillName3 = S3.SkillName WHERE ME =? AND YOU=? ; "
+    let sql = "SELECT P.password,P.Num,P.id,P.Contents,P.SkillName1, S1.SkillEx AS SkillEx1, S1.SkillImg AS SkillImg1, P.SkillName2, S2.SkillEx AS SkillEx2, S2.SkillImg AS SkillImg2, P.SkillName3, S3.SkillEx AS SkillEx3, S3.SkillImg AS SkillImg3 FROM Post AS P LEFT JOIN Skill AS S1 ON P.SkillName1 = S1.SkillName LEFT JOIN Skill AS S2 ON P.SkillName2 = S2.SkillName LEFT JOIN Skill AS S3 ON P.SkillName3 = S3.SkillName WHERE ME =? AND YOU=? ; "
     let param = [postme,postyou];
 
     connection.query(sql,param,function(err,rows){
         if(err) console.error;       
     
-       
         res.render("post",{rows,rows})
     })
 
 })
+app.post('/tt',function(req,res){
+    console.log("실행됨"+req.body.aa);
+    var sql = 'Delete from post where Num = ?';
+    const num = req.body.aa;
+    var param = [num];
+    connection.query(sql,param,function(err){
+                if(err){
+                    console.log(err);
+                }
+            })
+            res.send("<script>alert('삭제 완료!');location.href='/post';</script>");
+  })
+  //post 페이지에서 삭제 실패시
+  app.post('/tt1',function(req,res){
+    console.log("실행됨");
+    res.redirect("/post");
+   
+  })
 
   let jobname ="";
   let jobname1 = "";
   app.post('/search',function(req,res){
     jobname = req.body.job;
     
-    var string = encodeURIComponent(jobname);
+    
     res.redirect('/skilldb/' );
   })
+
   app.post('/search1',function(req,res){
     jobname1 = req.body.job;
-    
+    savecontents = req.body.contents;
+    id = req.body.id;
+    password = req.body.password;
+    me = req.body.me;
+    you = req.body.you;
+
     res.redirect('/write/' );
   })
 
 
-//   app.get('/skilldb/:job', function(req,res,next){
-//     const sql = "select SkillName,SkillEx,SkillImg,TripodName1,TripodEx1,TripodName2,TripodEx2,TripodName3,TripodEx3,TripodName4,TripodEx4,TripodName5,TripodEx5,TripodName6,TripodEx6,TripodName7,TripodEx7,TripodName8,TripodEx8 from skill where JobName = ? "  ;
-//     var param = req.params.job;
-//     console.log(param);
-//     connection.query(sql,[param],function(err,rows){
-//             if(err) console.error;
-//             res.render("skilldb",{rows:rows});
-//          })
- 
 
-//   })
   app.get('/skilldb', function(req,res,next){
-    const sql = "select SkillName,SkillEx,SkillImg,TripodName1,TripodEx1,TripodName2,TripodEx2,TripodName3,TripodEx3,TripodName4,TripodEx4,TripodName5,TripodEx5,TripodName6,TripodEx6,TripodName7,TripodEx7,TripodName8,TripodEx8 from skill where JobName = ? "  ;
+    const sql = "select SkillName,SkillEx,SkillImg,SkillThumb from skill where JobName = ? "  ;
     var param = jobname;
     connection.query(sql,[param],function(err,rows){
             if(err) console.error;
@@ -256,7 +281,6 @@ app.get('/post',function(req,res){
  
 
   })
-
 
 
 app.listen(app.get('port'),()=>{

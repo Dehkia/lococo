@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/post.css">
     <title>Document</title>
 </head>
 <body>
@@ -18,6 +19,9 @@
         <button type="submit" name="job" value="디스트로이어" formaction="/search">디스트로이어</button>
         <button type="submit" name="job" value="워로드" formaction="/search">워로드</button>
         <button type="submit" name="job" value="인파이터" formaction="/search">인파이터</button>
+        <button type="submit" name="job" value="버서커" formaction="/search">버서커</button>
+        <button type="submit" name="job" value="리퍼" formaction="/search">리퍼</button>
+    
     </form>
 
 
@@ -31,23 +35,8 @@
     <tr>
         <td><%=data.SkillName%></td>
         <td><%=data.SkillEx%></td>
+        <td><img src= "<%=data.SkillThumb%>" alt="이미지" width="100"/></td>
         <td><img src= "<%=data.SkillImg%>" alt="이미지" width="250"/></td>
-        <td><%=data.TripodName1%></td>
-        <td><%=data.TripodEx1%></td>
-        <td><%=data.TripodName2%></td>
-        <td><%=data.TripodEx2%></td>
-        <td><%=data.TripodName3%></td>
-        <td><%=data.TripodEx3%></td>
-        <td><%=data.TripodName4%></td>
-        <td><%=data.TripodEx4%></td>
-        <td><%=data.TripodName5%></td>
-        <td><%=data.TripodEx5%></td>
-        <td><%=data.TripodName6%></td>
-        <td><%=data.TripodEx6%></td>
-        <td><%=data.TripodName7%></td>
-        <td><%=data.TripodEx7%></td>
-        <td><%=data.TripodName8%></td>
-        <td><%=data.TripodEx8%></td>       
     </tr>
     <%}
     %>
